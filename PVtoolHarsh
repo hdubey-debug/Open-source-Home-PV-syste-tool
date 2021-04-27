@@ -1,0 +1,252 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+//software tool for PV systems
+//printf("➡️  👍  👍  ⬅️");
+//  printf("🌟😃😇🌏🎮");
+ //printf("%s\n", s);  
+char s[] = { 0xf0, 0x9f, 0x98, 0x8e, 0};
+void step1(unsigned int*appliances)
+{
+  
+  printf("\n%78s\n\n", "🌟 Welcome to software tool for home PV system by Harsh Dubey!🌟");
+  sleep(4);
+  printf("\n%57s\n\n", "Let's build you a home PV system!");
+ sleep(3);
+  printf("%57s\n\n","Press Enter key to get started\n\n");
+  while(getchar() != 10);
+  //getchar();
+  
+  printf(" %56s \n\n","  😃 Yay! Let's begin!😃");
+  sleep(2);
+  printf("%45s\n\n","[Step 1] : Load calculation");
+ sleep(2);
+  printf("%48s\n\n","Step 1.1: Please make a list of all your home appliances.");
+  sleep(2);
+  printf("%48s\n\n","Step 1.2: Note down power rating of each appliance.");
+  sleep(2);
+  printf("%48s\n\n","Step 1.3: Note down number of appliances you have in your house.");
+  sleep(2);
+  printf("%48s\n\n","Step 1.4: Note down number of hours you use each appliance for.");
+  sleep(2);
+  printf("%48s\n\n\n","Example: Two fans rated 40 W and usage is 4 hours a day!");
+  sleep(2);
+  printf("%59s\n\n","No rush! You can always come back later!");
+  sleep(2);
+  printf("%58s\n\n","Enter 'e' to exit and 'c' to continue!");
+  char c = getchar();
+  while(1)
+  {
+    if(c == 'c')
+      break;
+    if(c == 'e')
+      exit(0);
+  }
+  
+  printf("%45s %s\n\n","Awesome!", s);
+  sleep(2);
+  printf("%s\n\n","Enter total number of appliaces you have!");
+  printf("%40s\n\n","Example: If you use one fans and two heaters then the answer would be 3. ");
+  scanf("%d", appliances);
+  sleep(1);
+  printf("%45s %s\n\n","Gotcha!", s);
+  sleep(2);
+  printf("%s\n\n","Now enter how many appliance of each kind you have!");
+  printf("%40s\n\n","Example: if you have 2 fans, then the answer would be 2. ");
+  printf("%58s\n\n","Press Enter key when you're ready!");
+  
+  getchar();
+
+  while(getchar() != 10);
+  sleep(1);
+  printf("%45s %s\n\n","Awesome!", s);
+  return;
+}
+int main()
+{
+  unsigned int appliances;
+  step1(&appliances);
+  unsigned num[appliances];
+  unsigned power[appliances];
+  unsigned hour[appliances];
+  unsigned energy[appliances];
+  unsigned totalpower = 0, panelpower;
+  unsigned totalenergy = 0;
+  double DoD,panelout,ploss;
+  double battery,batrating,bloss;
+  
+  for(int i = 0; i< appliances; i++)
+  {
+    printf("Now enter the number of appliance %d : ", i+1);
+    scanf("%d",&num[i]);
+    sleep(1);
+    printf("%45s 👍\n\n","Gotcha!");
+  }
+  
+ printf("%s\n\n","Now let's get power of each of your appliances!");
+ sleep(2);
+ printf("%40s\n\n","Example: if power rating of fan / appliance 1 is 40 W, then enter 40 "); 
+ sleep(2);
+ printf("%58s\n\n","Press Enter key when you're ready!");
+ getchar();
+
+  while(getchar() != 10);
+  for(int i = 0; i< appliances; i++)
+  {
+    printf("Now enter the power of appliance %d : ", i+1);
+    scanf("%d",&power[i]);
+    sleep(1);
+    printf("%45s 👍\n\n","Gotcha!");
+  }
+sleep(2);
+printf("%s\n\n","Now let's get number of hours you use each appliance for!");
+sleep(2);
+printf("%40s\n\n","Example: if you use fan / appliance 1 for 3 hours, then enter 3 "); 
+sleep(2);
+printf("%58s\n\n","Press Enter key when you're ready!");
+getchar();
+
+  while(getchar() != 10);
+  for(int i = 0; i< appliances; i++)
+  {
+    printf("Now enter the number of hours for each appliance %d : ", i+1);
+    scanf("%d",&hour[i]);
+    sleep(1);
+    printf("%45s 👍\n\n","Gotcha!");
+  }
+  sleep(2);
+  printf("%55s \n\n","Yay! I got everything I need");
+  sleep(2);
+  printf("%s\n\n","Now let me calculate your total energy consumption!");
+  sleep(2);
+  for(int i = 0; i< appliances; i++)
+  {
+    energy[i] = num[i]*power[i]*hour[i];
+    totalpower = totalpower + (power[i]*num[i]);
+  }
+  for(int i = 0; i< appliances; i++)
+  {
+    totalenergy = totalenergy + energy[i];
+  }
+  
+  printf("Here it is! You total energy consumpution for the day is %u Wh/day\n\n", totalenergy);
+  
+  //inverter sizing
+  sleep(2);
+  printf("%55s\n\n","[Step 2] : Inverter Sizing");
+  sleep(2);
+  printf("%s\n\n","Now let me size the controller for you!");
+  sleep(2);
+  printf("Okay! So to support your energy requirement you should get a inverter in the range of %.2f watts to %.2f Watts\n\n", totalpower*1.2,totalpower*1.3 );
+  
+  //battery sizing
+  sleep(2);
+  printf("%55s\n\n","[Step 3] : Battery Sizing");
+  
+  sleep(2);
+  printf("%s\n\n","Now let me size the battery for you!");
+  sleep(2);
+  printf("%s\n\n","Google a lead-acid battery you want to use for your system and note down it's depth of discharge!");
+  sleep(2);
+  printf("%58s\n\n","Press Enter key when you're ready!");
+  getchar();
+
+  while(getchar() != 10);
+  sleep(1);
+  printf("%45s %s\n\n","Awesome!", s);
+  sleep(2);
+  printf("%s\n\n","Now enter your battery's depth of discharge in the format shown below!");
+  sleep(2);
+  printf("%40s\n\n","Example: if your DoD is 50%, then enter 0.50 "); 
+  scanf("%lf",&DoD);
+  sleep(1);
+  printf("%45s 👍\n\n","Gotcha!");
+  sleep(2);
+  printf("%s\n\n","Let me do the battery math for you!");
+  sleep(2);
+  battery = totalenergy + (totalenergy*0.2);
+  battery = battery*(1/DoD);
+  printf("Okay! So to support your energy requirement you should get a battery of %.2f watts of storage\n\n", battery );
+  sleep(2);
+  printf("%s\n\n","Battery's are available in V & Ah rating, i.e. V x Ah = Wh.");
+  sleep(2);
+  printf("%40s\n\n","Example: if your battery is rated 12 V and 200 Ah then your total power is 2400 Watts!"); 
+  sleep(2);
+  printf("%40s\n\n","Now enter the power rating of your battery: ");
+  scanf("%lf",&batrating);
+  sleep(1);
+  printf("%45s %s\n\n","Awesome!", s);
+  sleep(2);
+printf("You'll need to connect %f %lf Watts batteries connected in series. \n\n", (battery/batrating), batrating );
+  
+  //Panel sizing
+  sleep(2);
+  printf("%55s\n\n","[Step 4] : Panel Sizing");
+  sleep(2);
+  printf("%s\n\n","Now let me size the solar panel for you!");
+  sleep(2);
+  printf("%s\n\n","Now check your battery and note down the loss associated to your battery.");
+  sleep(2);
+  printf("%58s\n\n","Press Enter key when you're ready!");
+  getchar();
+  while(getchar() != 10);
+  sleep(1);
+  printf("%45s %s\n\n","Awesome!", s);
+  sleep(2);
+  printf("%s\n\n","Now enter the battery loss in the format shown below.");
+  sleep(2);
+  printf("%40s\n\n","Example: if your battery is showing 20% loss then enter 0.2");
+  scanf("%lf",&bloss);
+  panelout = (battery/2) + ((battery/2)*bloss);
+  //accounting for inverter loss
+  panelout = panelout + (panelout*0.2); 
+  sleep(2);
+  printf("\n%s\n\n","Now enter the panel loss in the format shown below.");
+  sleep(2);
+  printf("%40s\n\n","Example: if your panel is showing 20% loss then enter 0.2");
+  scanf("%lf",&ploss);
+  panelout = panelout + (panelout*ploss); 
+  sleep(1);
+  printf("%45s %s\n\n","Awesome!", s);
+  sleep(2);
+  printf("Total power your solar panel needs to generate is %lf Watts\n\n", panelout);
+  sleep(2);
+  printf("Running your requirements for standard test conditions of a typical...... \n");
+  sleep(2);
+  panelout = panelout/5.5; 
+  printf("According to standard test conditions your solar panel output should be %lf Watts\n", panelout);
+  
+  //Panel count
+  sleep(2);
+  printf("%s\n\n","Now let's figure out how many solar panels you need");
+  sleep(2);
+  printf("\n%s\n\n","To do so, note down the power output of your solar panels. ");
+  sleep(2);
+  printf("%58s\n\n","Press Enter key when you're ready!");
+  getchar();
+  while(getchar() != 10);
+  printf("\n\nEnter the power output of your solar panel in the format shown below.");
+  sleep(2);
+  printf("%40s\n\n","Example: if your panel is showing 20 Watts of power output then enter 20.");
+  sleep(1);
+  printf("%45s %s\n\n","Awesome!", s);
+  scanf("%d",&panelpower);
+  panelout = panelout/panelpower; 
+  sleep(2);
+  printf("\n\nAccording to our calculation, you'll need %lf number of panels %d Watt panel connected in series.\n\n", panelout, panelpower);
+  sleep(2);
+  printf("%45s \n\n","I know it's a lot. But I'm here to help 😇 ");
+  sleep(2);
+  printf("%45s \n\n","Let me recap what all you'll need for the PV system 😃");
+    
+  //recap
+  sleep(2);
+  printf("You'll need an inverter in the range of %.2f watts to %.2f Watts\n\n", totalpower*1.2,totalpower*1.3 );
+  sleep(2);
+printf("You'll need to connect %f %lf Watts batteries connected in series. \n\n", (battery/batrating), batrating );
+  sleep(2);
+  printf("Finally, you'll need %lf number of panels %d Watt panel connected in series.", panelout, panelpower);
+  
+}
